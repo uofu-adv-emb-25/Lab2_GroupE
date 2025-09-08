@@ -22,10 +22,14 @@ bool on = false;
 #define BLINK_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
 
 void blink_task(__unused void *params) {
+    // Initialize WiFi
     hard_assert(cyw43_arch_init() == PICO_OK);
     while (true) {
+        // Set LED state
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, on);
+        // Each on/off is 2 counts, so 11 makes the system pause every 5th blink 
         if (count++ % 11) on = !on;
+        // 500 mS delay
         vTaskDelay(500);
     }
 }
@@ -35,6 +39,7 @@ void main_task(__unused void *params) {
                 BLINK_TASK_STACK_SIZE, NULL, BLINK_TASK_PRIORITY, NULL);
     char c;
     while(c = getchar()) {
+        // Convert lower to capital/capital to lower and put char
         if (c <= 'z' && c >= 'a') putchar(c - 32);
         else if (c >= 'A' && c <= 'Z') putchar(c + 32);
         else putchar(c);
