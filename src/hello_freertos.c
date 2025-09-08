@@ -22,7 +22,7 @@ bool on = false;
 #define BLINK_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
 
 void blink_task(__unused void *params) {
-    // Initialize WiFi
+    // Initialize WiFi (LED pin is on WiFi network card)
     hard_assert(cyw43_arch_init() == PICO_OK);
     while (true) {
         // Set LED state
@@ -52,6 +52,7 @@ int main( void )
     const char *rtos_name;
     rtos_name = "FreeRTOS";
     TaskHandle_t task;
+    // Create RTOS task for main_task
     xTaskCreate(main_task, "MainThread",
                 MAIN_TASK_STACK_SIZE, NULL, MAIN_TASK_PRIORITY, &task);
     vTaskStartScheduler();
