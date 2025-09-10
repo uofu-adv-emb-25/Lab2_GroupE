@@ -13,6 +13,8 @@
 #include "pico/multicore.h"
 #include "pico/cyw43_arch.h"
 
+#include "helpers.h"
+
 int count = 0;
 bool on = false;
 
@@ -40,9 +42,7 @@ void main_task(__unused void *params) {
     char c;
     while(c = getchar()) {
         // Convert lower to capital/capital to lower and put char
-        if (c <= 'z' && c >= 'a') putchar(c - 32);
-        else if (c >= 'A' && c <= 'Z') putchar(c + 32);
-        else putchar(c);
+        putchar(convert_char(c));
     }
 }
 
