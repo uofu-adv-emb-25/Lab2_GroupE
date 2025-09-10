@@ -29,8 +29,7 @@ void blink_task(__unused void *params) {
     while (true) {
         // Set LED state
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, on);
-        // Each on/off is 2 counts, so 11 makes the system pause every 5th blink 
-        if (count++ % 11) on = !on;
+        on = update_state(on, count++);
         // 500 mS delay
         vTaskDelay(500);
     }
