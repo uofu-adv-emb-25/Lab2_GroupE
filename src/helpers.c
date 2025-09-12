@@ -17,8 +17,10 @@ char convert_char(const char c) {
  * @param count the number of times the light has been toggled
  * @return the new state of the light
  */
-bool update_state(const bool on, const int count) {
-    // Each on/off is 2 counts, so 11 makes the system pause every 5th blink 
-    if (count % 11) return !on;
+bool update_state(bool on, int* count) {
+    // Each on/off is 2 counts, so 11 makes the system pause every 5th blink
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, on);
+    if (*count % 11) on = !on;
+    *count += 1;
     return on;
 }

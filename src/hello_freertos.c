@@ -28,8 +28,7 @@ void blink_task(__unused void *params) {
     hard_assert(cyw43_arch_init() == PICO_OK);
     while (true) {
         // Set LED state
-        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, on);
-        on = update_state(on, count++);
+        on = update_state(on, &count);
         // 500 mS delay
         vTaskDelay(500);
     }
