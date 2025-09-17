@@ -20,7 +20,5 @@ char convert_char(const char c) {
 bool update_state(bool on, int* count) {
     // Each on/off is 2 counts, so 11 makes the system pause every 5th blink
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, on);
-    if (*count % 11) on = !on;
-    *count += 1;
-    return on;
+    return (*count)++ % 11 ? !on : on;
 }
