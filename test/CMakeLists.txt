@@ -1,4 +1,4 @@
-add_executable(mytest test.c unity_config.c)
+add_executable(mytest helper_test.c ../src/helpers.c unity_config.c)
 
 target_link_libraries(mytest PRIVATE
   pico_stdlib
@@ -43,3 +43,4 @@ add_test(NAME simulate_mytest COMMAND
     )
 
 add_custom_target(flash_test picotool load -f $<TARGET_FILE:mytest> DEPENDS mytest)
+add_custom_target(openocd_flash openocd -s ${OPENOCD_PATH} -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c 'adapter speed 5000; program "$<TARGET_FILE:mytest>" verify reset exit')
